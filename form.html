@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBG_VKN Registration Form</title>
+    <style>
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        input[type="text"], input[type="number"], input[type="tel"], input[type="file"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="submit"], button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #45a049;
+        }
+        #passportPreview {
+            max-width: 200px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <center> <h2>Registration Form</h2></center>
+    <form id="registrationForm" onsubmit="generateReceipt(); return false;"">
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required></textarea>
+
+        <h3>Parent/Guardian Information</h3>
+        <label for="parentName">Parent/Guardian Name:</label>
+        <input type="text" id="parentName" name="parentName" required>
+
+        <label for="parentPhone">Parent/Guardian Phone Number:</label>
+        <input type="tel" id="parentPhone" name="parentPhone" required>
+
+        <label for="date">Date:</label>
+        <input type="text" id="date" name="date" placeholder="YYYY-MM-DD" required>
+
+        <label for="passport">Passport Photo:</label>
+        <input type="file" id="passport" name="passport" accept="image/*" onchange="previewPassport(event)" required>
+        <div id="passportPreview"></div>
+
+        <input type="submit" value="Generate Receipt">
+        <button type="button" onclick="printForm()">Print</button>
+    </form>
+
+<center>
+    <div id="receipt" class="receipt"></div>
+</center>
+    <script>
+        function previewPassport(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('passportPreview');
+                output.innerHTML = '<img src="' + reader.result + '" style="max-width:100%;" />';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function printForm() {
+            window.print();
+        }
+
+        function generateReceipt() {
+        var fullname = document.getElementById('fullname').value;
+        var address = document.getElementById('address').value;
+        var date = document.getElementById('date').value;
+       
+
+        var receiptContent = `
+            <h2>CONGRATULATION</h2>
+            <p><strong>fullname:</strong> ${fullname}</p>
+            <p><strong>address:</strong> ${address}</p>
+           
+        `;
+
+        document.getElementById('receipt').innerHTML = receiptContent;
+    }
+    </script>
+    <a href="http://receipt"></a>
+</body>
+</html>
